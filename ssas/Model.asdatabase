@@ -1,0 +1,813 @@
+{
+  "name": "factory_ssas",
+  "compatibilityLevel": 1700,
+  "model": {
+    "culture": "en-US",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "SQL/DESKTOP-JKUS70M;factory",
+        "connectionDetails": {
+          "protocol": "tds",
+          "address": {
+            "server": "DESKTOP-JKUS70M",
+            "database": "factory"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "credential": {
+          "AuthenticationKind": "Windows",
+          "kind": "SQL",
+          "path": "desktop-jkus70m;factory",
+          "Username": "desktop-jkus70m\\pascal",
+          "EncryptConnection": false
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "dw dimassests",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id"
+          },
+          {
+            "name": "tag",
+            "dataType": "string",
+            "sourceColumn": "tag"
+          },
+          {
+            "name": "site",
+            "dataType": "int64",
+            "sourceColumn": "site"
+          },
+          {
+            "name": "type",
+            "dataType": "string",
+            "sourceColumn": "type"
+          },
+          {
+            "name": "creator",
+            "dataType": "string",
+            "sourceColumn": "creator"
+          },
+          {
+            "name": "model",
+            "dataType": "string",
+            "sourceColumn": "model"
+          },
+          {
+            "name": "rank_importing",
+            "dataType": "string",
+            "sourceColumn": "rank_importing"
+          },
+          {
+            "name": "rpk",
+            "dataType": "double",
+            "sourceColumn": "rpk"
+          },
+          {
+            "name": "starttime",
+            "dataType": "string",
+            "sourceColumn": "starttime"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-JKUS70M;factory\",",
+                "    dw_dimassests = Source{[Schema=\"dw\",Item=\"dimassests\"]}[Data]",
+                "in",
+                "    dw_dimassests"
+              ]
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "total assets",
+            "expression": "COUNTROWS('dw dimassests')"
+          },
+          {
+            "name": "sum rpk",
+            "expression": "sum('dw dimassests'[rpk])"
+          },
+          {
+            "name": "avg rpk",
+            "expression": "AVERAGE('dw dimassests'[rpk])"
+          }
+        ]
+      },
+      {
+        "name": "dw dimsensore_rd",
+        "columns": [
+          {
+            "name": "reading_id",
+            "dataType": "int64",
+            "sourceColumn": "reading_id"
+          },
+          {
+            "name": "asset_id",
+            "dataType": "int64",
+            "sourceColumn": "asset_id"
+          },
+          {
+            "name": "recorded_at",
+            "dataType": "string",
+            "sourceColumn": "recorded_at"
+          },
+          {
+            "name": "operating_mode",
+            "dataType": "string",
+            "sourceColumn": "operating_mode"
+          },
+          {
+            "name": "vibration_mm_s",
+            "dataType": "double",
+            "sourceColumn": "vibration_mm_s"
+          },
+          {
+            "name": "bearing_temp_c",
+            "dataType": "double",
+            "sourceColumn": "bearing_temp_c"
+          },
+          {
+            "name": "motor_current_a",
+            "dataType": "double",
+            "sourceColumn": "motor_current_a"
+          },
+          {
+            "name": "discharge_pressure_bar",
+            "dataType": "double",
+            "sourceColumn": "discharge_pressure_bar"
+          },
+          {
+            "name": "rotor_speed_rpm",
+            "dataType": "double",
+            "sourceColumn": "rotor_speed_rpm"
+          },
+          {
+            "name": "degradation_stage",
+            "dataType": "string",
+            "sourceColumn": "degradation_stage"
+          },
+          {
+            "name": "rul_hours",
+            "dataType": "double",
+            "sourceColumn": "rul_hours"
+          },
+          {
+            "name": "failure_next_24h",
+            "dataType": "boolean",
+            "sourceColumn": "failure_next_24h"
+          },
+          {
+            "name": "next_failure_mode",
+            "dataType": "string",
+            "sourceColumn": "next_failure_mode"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-JKUS70M;factory\",",
+                "    dw_dimsensore_rd = Source{[Schema=\"dw\",Item=\"dimsensore_rd\"]}[Data]",
+                "in",
+                "    dw_dimsensore_rd"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "dw dimsite",
+        "columns": [
+          {
+            "name": "site_id",
+            "dataType": "int64",
+            "sourceColumn": "site_id"
+          },
+          {
+            "name": "site_name",
+            "dataType": "string",
+            "sourceColumn": "site_name"
+          },
+          {
+            "name": "site_kind",
+            "dataType": "string",
+            "sourceColumn": "site_kind"
+          },
+          {
+            "name": "country",
+            "dataType": "string",
+            "sourceColumn": "country"
+          },
+          {
+            "name": "city",
+            "dataType": "string",
+            "sourceColumn": "city"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-JKUS70M;factory\",",
+                "    dw_dimsite = Source{[Schema=\"dw\",Item=\"dimsite\"]}[Data]",
+                "in",
+                "    dw_dimsite"
+              ]
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "total site",
+            "expression": "COUNTROWS('dw dimsite')"
+          }
+        ]
+      },
+      {
+        "name": "dw dimw_o",
+        "columns": [
+          {
+            "name": "work_order_id",
+            "dataType": "int64",
+            "sourceColumn": "work_order_id"
+          },
+          {
+            "name": "asset_id",
+            "dataType": "int64",
+            "sourceColumn": "asset_id"
+          },
+          {
+            "name": "order_type",
+            "dataType": "string",
+            "sourceColumn": "order_type"
+          },
+          {
+            "name": "opened_at",
+            "dataType": "string",
+            "sourceColumn": "opened_at"
+          },
+          {
+            "name": "closed_at",
+            "dataType": "string",
+            "sourceColumn": "closed_at"
+          },
+          {
+            "name": "labor_hours",
+            "dataType": "double",
+            "sourceColumn": "labor_hours"
+          },
+          {
+            "name": "parts_cost",
+            "dataType": "double",
+            "sourceColumn": "parts_cost"
+          },
+          {
+            "name": "priority",
+            "dataType": "string",
+            "sourceColumn": "priority"
+          },
+          {
+            "type": "calculated",
+            "name": "cost time",
+            "dataType": "double",
+            "isDataTypeInferred": true,
+            "expression": "('dw dimw_o'[closed_at]-'dw dimw_o'[opened_at])*'dw dimw_o'[labor_hours]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-JKUS70M;factory\",",
+                "    dw_dimw_o = Source{[Schema=\"dw\",Item=\"dimw_o\"]}[Data]",
+                "in",
+                "    dw_dimw_o"
+              ]
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "total_wo",
+            "expression": "COUNTROWS('dw dimw_o')"
+          },
+          {
+            "name": "sum time",
+            "expression": "sumx('dw dimw_o','dw dimw_o'[closed_at]-'dw dimw_o'[opened_at])"
+          },
+          {
+            "name": "sum cost",
+            "expression": "sum('dw dimw_o'[parts_cost])"
+          },
+          {
+            "name": "avgtime",
+            "expression": "DIVIDE([sum time],[total_wo])"
+          },
+          {
+            "name": "avgcost",
+            "expression": "DIVIDE([sum cost],[total_wo])"
+          }
+        ]
+      },
+      {
+        "name": "dw factfialure",
+        "columns": [
+          {
+            "name": "failure_id",
+            "dataType": "int64",
+            "sourceColumn": "failure_id"
+          },
+          {
+            "name": "asset_id",
+            "dataType": "int64",
+            "sourceColumn": "asset_id"
+          },
+          {
+            "name": "failed_at",
+            "dataType": "string",
+            "sourceColumn": "failed_at"
+          },
+          {
+            "name": "failure_mode",
+            "dataType": "string",
+            "sourceColumn": "failure_mode"
+          },
+          {
+            "name": "downtime_hours",
+            "dataType": "double",
+            "sourceColumn": "downtime_hours"
+          },
+          {
+            "name": "restored_at",
+            "dataType": "string",
+            "sourceColumn": "restored_at"
+          },
+          {
+            "name": "hours_since_last_repair",
+            "dataType": "double",
+            "sourceColumn": "hours_since_last_repair"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-JKUS70M;factory\",",
+                "    dw_factfialure = Source{[Schema=\"dw\",Item=\"factfialure\"]}[Data]",
+                "in",
+                "    dw_factfialure"
+              ]
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "total",
+            "expression": "COUNTROWS('dw factfialure')"
+          },
+          {
+            "name": "sum dh",
+            "expression": "SUM('dw factfialure'[downtime_hours])"
+          },
+          {
+            "name": "sum hslr",
+            "expression": "sum('dw factfialure'[hours_since_last_repair])"
+          },
+          {
+            "name": "avg dh",
+            "expression": "AVERAGE('dw factfialure'[downtime_hours])"
+          },
+          {
+            "name": "avg hslr",
+            "expression": "AVERAGE('dw factfialure'[hours_since_last_repair])"
+          }
+        ]
+      },
+      {
+        "name": "err all",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id"
+          },
+          {
+            "name": "errcat",
+            "dataType": "string",
+            "sourceColumn": "errcat"
+          },
+          {
+            "name": "tablename",
+            "dataType": "string",
+            "sourceColumn": "tablename"
+          },
+          {
+            "name": "columnname",
+            "dataType": "string",
+            "sourceColumn": "columnname"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-JKUS70M;factory\",",
+                "    err_all = Source{[Schema=\"err\",Item=\"all\"]}[Data]",
+                "in",
+                "    err_all"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "staging assets",
+        "columns": [
+          {
+            "name": "asset_id",
+            "dataType": "int64",
+            "sourceColumn": "asset_id"
+          },
+          {
+            "name": "site_id",
+            "dataType": "int64",
+            "sourceColumn": "site_id"
+          },
+          {
+            "name": "asset_tag",
+            "dataType": "string",
+            "sourceColumn": "asset_tag"
+          },
+          {
+            "name": "asset_type",
+            "dataType": "string",
+            "sourceColumn": "asset_type"
+          },
+          {
+            "name": "manufacturer",
+            "dataType": "string",
+            "sourceColumn": "manufacturer"
+          },
+          {
+            "name": "model_code",
+            "dataType": "string",
+            "sourceColumn": "model_code"
+          },
+          {
+            "name": "criticality",
+            "dataType": "string",
+            "sourceColumn": "criticality"
+          },
+          {
+            "name": "rated_power_kw",
+            "dataType": "double",
+            "sourceColumn": "rated_power_kw"
+          },
+          {
+            "name": "commissioned_at",
+            "dataType": "string",
+            "sourceColumn": "commissioned_at"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-JKUS70M;factory\",",
+                "    staging_assets = Source{[Schema=\"staging\",Item=\"assets\"]}[Data]",
+                "in",
+                "    staging_assets"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "staging failure",
+        "columns": [
+          {
+            "name": "failure_id",
+            "dataType": "int64",
+            "sourceColumn": "failure_id"
+          },
+          {
+            "name": "asset_id",
+            "dataType": "int64",
+            "sourceColumn": "asset_id"
+          },
+          {
+            "name": "failed_at",
+            "dataType": "string",
+            "sourceColumn": "failed_at"
+          },
+          {
+            "name": "failure_mode",
+            "dataType": "string",
+            "sourceColumn": "failure_mode"
+          },
+          {
+            "name": "downtime_hours",
+            "dataType": "double",
+            "sourceColumn": "downtime_hours"
+          },
+          {
+            "name": "restored_at",
+            "dataType": "string",
+            "sourceColumn": "restored_at"
+          },
+          {
+            "name": "hours_since_last_repair",
+            "dataType": "double",
+            "sourceColumn": "hours_since_last_repair"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-JKUS70M;factory\",",
+                "    staging_failure = Source{[Schema=\"staging\",Item=\"failure\"]}[Data]",
+                "in",
+                "    staging_failure"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "staging sensor_rd",
+        "columns": [
+          {
+            "name": "reading_id",
+            "dataType": "int64",
+            "sourceColumn": "reading_id"
+          },
+          {
+            "name": "asset_id",
+            "dataType": "int64",
+            "sourceColumn": "asset_id"
+          },
+          {
+            "name": "recorded_at",
+            "dataType": "string",
+            "sourceColumn": "recorded_at"
+          },
+          {
+            "name": "operating_mode",
+            "dataType": "string",
+            "sourceColumn": "operating_mode"
+          },
+          {
+            "name": "vibration_mm_s",
+            "dataType": "double",
+            "sourceColumn": "vibration_mm_s"
+          },
+          {
+            "name": "bearing_temp_c",
+            "dataType": "double",
+            "sourceColumn": "bearing_temp_c"
+          },
+          {
+            "name": "motor_current_a",
+            "dataType": "double",
+            "sourceColumn": "motor_current_a"
+          },
+          {
+            "name": "discharge_pressure_bar",
+            "dataType": "double",
+            "sourceColumn": "discharge_pressure_bar"
+          },
+          {
+            "name": "rotor_speed_rpm",
+            "dataType": "double",
+            "sourceColumn": "rotor_speed_rpm"
+          },
+          {
+            "name": "degradation_stage",
+            "dataType": "string",
+            "sourceColumn": "degradation_stage"
+          },
+          {
+            "name": "rul_hours",
+            "dataType": "double",
+            "sourceColumn": "rul_hours"
+          },
+          {
+            "name": "failure_next_24h",
+            "dataType": "boolean",
+            "sourceColumn": "failure_next_24h"
+          },
+          {
+            "name": "next_failure_mode",
+            "dataType": "string",
+            "sourceColumn": "next_failure_mode"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-JKUS70M;factory\",",
+                "    staging_sensor_rd = Source{[Schema=\"staging\",Item=\"sensor_rd\"]}[Data]",
+                "in",
+                "    staging_sensor_rd"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "staging sites",
+        "columns": [
+          {
+            "name": "site_id",
+            "dataType": "int64",
+            "sourceColumn": "site_id"
+          },
+          {
+            "name": "site_name",
+            "dataType": "string",
+            "sourceColumn": "site_name"
+          },
+          {
+            "name": "site_kind",
+            "dataType": "string",
+            "sourceColumn": "site_kind"
+          },
+          {
+            "name": "country",
+            "dataType": "string",
+            "sourceColumn": "country"
+          },
+          {
+            "name": "city",
+            "dataType": "string",
+            "sourceColumn": "city"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-JKUS70M;factory\",",
+                "    staging_sites = Source{[Schema=\"staging\",Item=\"sites\"]}[Data]",
+                "in",
+                "    staging_sites"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "staging w_o",
+        "columns": [
+          {
+            "name": "work_order_id",
+            "dataType": "int64",
+            "sourceColumn": "work_order_id"
+          },
+          {
+            "name": "asset_id",
+            "dataType": "int64",
+            "sourceColumn": "asset_id"
+          },
+          {
+            "name": "order_type",
+            "dataType": "string",
+            "sourceColumn": "order_type"
+          },
+          {
+            "name": "opened_at",
+            "dataType": "string",
+            "sourceColumn": "opened_at"
+          },
+          {
+            "name": "closed_at",
+            "dataType": "string",
+            "sourceColumn": "closed_at"
+          },
+          {
+            "name": "labor_hours",
+            "dataType": "double",
+            "sourceColumn": "labor_hours"
+          },
+          {
+            "name": "parts_cost",
+            "dataType": "double",
+            "sourceColumn": "parts_cost"
+          },
+          {
+            "name": "priority",
+            "dataType": "string",
+            "sourceColumn": "priority"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-JKUS70M;factory\",",
+                "    staging_w_o = Source{[Schema=\"staging\",Item=\"w_o\"]}[Data]",
+                "in",
+                "    staging_w_o"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "f3576efd-9cb9-4807-b251-6f11993c2137",
+        "fromTable": "dw dimassests",
+        "fromColumn": "site",
+        "toTable": "dw dimsite",
+        "toColumn": "site_id"
+      },
+      {
+        "name": "584a56fd-04da-4b26-9b0b-96396f4c617e",
+        "toCardinality": "many",
+        "fromTable": "dw dimassests",
+        "fromColumn": "id",
+        "toTable": "dw dimsensore_rd",
+        "toColumn": "asset_id",
+        "crossFilteringBehavior": "bothDirections"
+      },
+      {
+        "name": "6f7e8697-2908-4d45-ba79-060a55aa02c7",
+        "fromTable": "dw dimw_o",
+        "fromColumn": "asset_id",
+        "toTable": "dw dimassests",
+        "toColumn": "id"
+      },
+      {
+        "name": "46194918-8958-4c0e-817c-e788f1da6a48",
+        "toCardinality": "many",
+        "fromTable": "dw factfialure",
+        "fromColumn": "asset_id",
+        "toTable": "dw dimassests",
+        "toColumn": "id",
+        "crossFilteringBehavior": "bothDirections"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "800"
+      }
+    ]
+  }
+}

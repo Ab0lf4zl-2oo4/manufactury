@@ -1,0 +1,8 @@
+C:\Users\Pascal\source\repos\factory_ssas\bin\Model.asdatabase
+C:\Users\Pascal\source\repos\factory_ssas\bin\Model.deploymenttargets
+C:\Users\Pascal\source\repos\factory_ssas\bin\Model.deploymentoptions
+C:\Users\Pascal\source\repos\factory_ssas\obj\Development\factory_ssas.smproj.AssemblyReference.cache
+C:\Users\Pascal\source\repos\factory_ssas\obj\Development\factory_ssas.smproj.CoreCompileInputs.cache
+C:\Users\Pascal\source\repos\factory_ssas\obj\Development\Model.asdatabase
+C:\Users\Pascal\source\repos\factory_ssas\obj\Development\Model.deploymentoptions
+C:\Users\Pascal\source\repos\factory_ssas\obj\Development\Model.deploymenttargets
